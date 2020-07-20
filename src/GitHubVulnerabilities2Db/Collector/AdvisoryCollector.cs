@@ -32,18 +32,21 @@ namespace GitHubVulnerabilities2Db.Collector
 
         public async Task<bool> ProcessAsync(CancellationToken token)
         {
-            var advisories = await _queryService.GetAdvisoriesSinceAsync(_cursor, token);
-            var hasAdvisories = advisories != null && advisories.Any();
-            _logger.LogInformation("Found {AdvisoryCount} new advisories to process", advisories?.Count() ?? 0);
-            if (hasAdvisories)
-            {
-                var lastUpdatedAt = advisories.Max(i => i.UpdatedAt);
-                await _ingestor.IngestAsync(advisories.Select(v => v).ToList());
-                _cursor.Value = lastUpdatedAt;
-                await _cursor.Save(token);
-            }
+            /*            var advisories = await _queryService.GetAdvisoriesSinceAsync(_cursor, token);
+                        var hasAdvisories = advisories != null && advisories.Any();
+                        _logger.LogInformation("Found {AdvisoryCount} new advisories to process", advisories?.Count() ?? 0);
+                        if (hasAdvisories)
+                        {
+                            var lastUpdatedAt = advisories.Max(i => i.UpdatedAt);
+                            await _ingestor.IngestAsync(advisories.Select(v => v).ToList());
+                            _cursor.Value = lastUpdatedAt;
+                            await _cursor.Save(token);
+                        }
 
-            return hasAdvisories;
+                        return hasAdvisories;
+            */
+            await _ingestor.IngestAsync(Enumerable.Empty<GraphQL.SecurityAdvisory>().ToList());
+            return false;
         }
     }
 }

@@ -24,15 +24,18 @@ namespace GitHubVulnerabilities2Db.Ingest
             _gitHubVersionRangeParser = gitHubVersionRangeParser ?? throw new ArgumentNullException(nameof(gitHubVersionRangeParser));
         }
 
-        public async Task IngestAsync(IReadOnlyList<SecurityAdvisory> advisories)
+        public async Task IngestAsync(IReadOnlyList<SecurityAdvisory> advisoriesX)
         {
-            foreach (var advisory in advisories)
-            {
-                var vulnerabilityTuple = FromAdvisory(advisory);
-                var vulnerability = vulnerabilityTuple.Item1;
-                var wasWithdrawn = vulnerabilityTuple.Item2;
-                await _packageVulnerabilityService.UpdateVulnerabilityAsync(vulnerability, wasWithdrawn);
-            }
+            await _packageVulnerabilityService.UpdateVulnerabilityAsync(null, false);
+
+
+            /*            foreach (var advisory in advisories)
+                        {
+                            var vulnerabilityTuple = FromAdvisory(advisory);
+                            var vulnerability = vulnerabilityTuple.Item1;
+                            var wasWithdrawn = vulnerabilityTuple.Item2;
+                            await _packageVulnerabilityService.UpdateVulnerabilityAsync(vulnerability, wasWithdrawn);
+                        }*/
         }
 
         private Tuple<PackageVulnerability, bool> FromAdvisory(SecurityAdvisory advisory)
