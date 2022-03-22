@@ -46,7 +46,7 @@
     "load-grunt-tasks": "^4.0.0",
     "lodash": "^4.17.14",
     "markdown-it": "^8.4.2",
-    "minimist": "^1.2.3",
+    "minimist": "^1.2.6",
     "replace-in-file": "^3.4.3",
     "time-grunt": "^2.0.0"
   },
